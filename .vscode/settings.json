@@ -3,6 +3,7 @@
         "brevo",
         "mern",
         "mernauth",
-        "SMPT"
+        "SMPT",
+        "VITE"
     ]
 }
