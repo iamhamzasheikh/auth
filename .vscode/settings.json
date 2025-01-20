@@ -1,9 +1,13 @@
 {
     "cSpell.words": [
         "brevo",
+        "import",
+        "Loggedin",
         "mern",
         "mernauth",
+        "onSubmithandler",
         "SMPT",
+        "Toastify",
         "VITE"
     ]
 }
