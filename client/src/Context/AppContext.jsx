@@ -7,7 +7,7 @@ export const AppContextProvider = (props) => {
 
 
     // const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const backendUrl = "http://localhost:4000";
+    const backendUrl = "http://localhost:4000"; 
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [userData, setUserData] = useState(false);
 
@@ -20,7 +20,7 @@ export const AppContextProvider = (props) => {
 
     }
     return (
-        <AppContext.Provider value={{value}}>
+        <AppContext.Provider value={value}>
             {props.children}
         </AppContext.Provider>
     );

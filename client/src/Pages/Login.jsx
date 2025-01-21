@@ -16,40 +16,97 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSubmithandler = async (e) => {
 
+  // const onSubmithandler = async (e) => {
+
+  //   try {
+  //     e.preventDefault();
+  //     axios.defaults.withCredentials = true;
+
+  //     if (state === 'Sign Up') {
+  //       const { data } = await axios.post(backendUrl + '/api/auth/register', { name, email, password });
+
+
+  //       if (data.success) {
+  //         setIsLoggedin(true);
+  //         navigate('/');
+  //       } else {
+  //         toast.error(data.message);
+  //       }
+  //     }
+  //     else {
+  //       const { data } = await axios.post(backendUrl + '/api/auth/login', { email, password });
+
+  //       if (data.success) {
+  //         setIsLoggedin(true);
+  //         navigate('/');
+  //       } else {
+  //         toast.error(data.message);
+  //       }
+  //     }
+
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+
+
+  // }
+
+  const onSubmithandler = async (e) => {
     try {
       e.preventDefault();
       axios.defaults.withCredentials = true;
 
       if (state === 'Sign Up') {
-        const { data } = await axios.post(`${backendUrl}/api/auth/register`, {name, email, password });
+        console.log("Sending signup request:", { name, email, password });
+        const response = await axios.post(backendUrl + '/api/auth/register', { name, email, password });
+        console.log("Signup Response:", response);
 
-
-        if (data.success) {
+        if (response.status === 200) {
+          toast.success("Signup successful!");
           setIsLoggedin(true);
-          navigate('/');
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
         } else {
-          toast.error(data.message);
+          console.error("Signup failed:", response.data?.message);
+          toast.error(response.data?.message || "Signup failed");
+        }
+      } else {
+        console.log("Sending login request:", { email, password });
+        const response = await axios.post(backendUrl + '/api/auth/login', { email, password });
+        console.log("Full login response:", response);
+
+        if (response.status === 200) {
+          console.log("Login successful");
+          toast.success("Login successful!");
+          setIsLoggedin(true);
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
+        } else {
+          console.error("Login failed:", response.data?.message);
+          toast.error(response.data?.message || "Login failed");
         }
       }
-      else {
-        const { data } = await axios.post(`${backendUrl}/api/auth/login`, { email, password });
-
-        if (data.success) {
-          setIsLoggedin(true);
-          navigate('/');
-        } else {
-          toast.error(data.message);
-        }
-      }
-
     } catch (error) {
-      toast.error(error.message);
+      // Detailed error logging
+      console.error("Authentication error details:", {
+        error: error,
+        response: error.response,
+        data: error.response?.data,
+        message: error.message
+      });
+
+      // Handle error message display
+      const errorMessage = error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Authentication failed";
+
+      toast.error(errorMessage);
     }
-
-
-  }
+  };
 
 
   return (
