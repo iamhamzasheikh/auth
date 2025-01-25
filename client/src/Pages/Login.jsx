@@ -9,48 +9,12 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { backendUrl, setIsLoggedin } = useContext(AppContext)
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContext)
 
-  const [state, setState] = useState('Sign Up');
+  const [state, setState] = useState('Login');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-
-  // const onSubmithandler = async (e) => {
-
-  //   try {
-  //     e.preventDefault();
-  //     axios.defaults.withCredentials = true;
-
-  //     if (state === 'Sign Up') {
-  //       const { data } = await axios.post(backendUrl + '/api/auth/register', { name, email, password });
-
-
-  //       if (data.success) {
-  //         setIsLoggedin(true);
-  //         navigate('/');
-  //       } else {
-  //         toast.error(data.message);
-  //       }
-  //     }
-  //     else {
-  //       const { data } = await axios.post(backendUrl + '/api/auth/login', { email, password });
-
-  //       if (data.success) {
-  //         setIsLoggedin(true);
-  //         navigate('/');
-  //       } else {
-  //         toast.error(data.message);
-  //       }
-  //     }
-
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-
-
-  // }
 
   const onSubmithandler = async (e) => {
     try {
@@ -65,6 +29,7 @@ const Login = () => {
         if (response.status === 200) {
           toast.success("Signup successful!");
           setIsLoggedin(true);
+          getUserData()
           setTimeout(() => {
             navigate('/');
           }, 1000);
@@ -81,6 +46,7 @@ const Login = () => {
           console.log("Login successful");
           toast.success("Login successful!");
           setIsLoggedin(true);
+          getUserData()
           setTimeout(() => {
             navigate('/');
           }, 1000);

@@ -32,7 +32,9 @@ export const register = async (req, res) => {
         );
         await user.save();
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET.trim(), { expiresIn: '7d' });
+
         res.cookie('token', token,
             {
                 httpOnly: true,
@@ -59,60 +61,91 @@ export const register = async (req, res) => {
         res.json({ Success: false, message: error.message })
     }
 }
-
 // now we make user login request
-
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
+    // Validate email and password fields
     if (!email) {
-        return res.json({ Success: false, msg: 'Please enter you Email address' });
+        return res.status(400).json({ Success: false, msg: 'Please enter your email address' });
     }
-
     if (!password) {
-        return res.json({ Success: false, msg: 'Please enter your Password' });
+        return res.status(400).json({ Success: false, msg: 'Please enter your password' });
     }
 
     try {
-
+        // Find the user by email
         const user = await userModel.findOne({ email });
 
         if (!user) {
-            return res.json({ Success: false, message: 'User not found' });
+            // Avoid exposing whether the user exists
+            return res.status(401).json({ Success: false, message: 'Invalid email or password' });
         }
+
+        // Compare the provided password with the hashed password in the database
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.json({ Success: false, message: 'Incorrect Password' });
+            return res.status(401).json({ Success: false, message: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-        res.cookie('token', token,
-            {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production ',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-                expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            }
-        )
-        return res.json({ Success: true })
+        // Generate a JWT token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET.trim(), { expiresIn: '7d' });
+
+        // Set the token as an HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+        });
+
+        // Respond with success and optionally user data
+        return res.status(200).json({ Success: true, message: 'Login successful', token });
 
     } catch (error) {
-        return res.json({ Success: false, message: error.message })
+        // Catch and handle any errors
+        return res.status(500).json({ Success: false, message: 'An error occurred. Please try again.' });
     }
-}
+};
+
+
 
 // now we can make logout functionality 
 
+// export const logout = async (req, res) => {
+//     try {
+//         res.clearCookie('token', {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === 'production',
+//             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+//         }); return res.json({ Success: true, message: 'Logged out Successfully' })
+//     } catch (error) {
+//         return res.json({ success: false, message: error.message })
+//     }
+// }
+
 export const logout = async (req, res) => {
     try {
+        console.log('Logout request received');
+
         res.clearCookie('token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production ',
+            secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-        }); return res.json({ Success: true, message: 'Logged out Successfully' })
+        });
+
+        console.log('Cookie cleared successfully', req.cookies.token);
+        return res.status(200).json({
+            success: true,
+            message: 'Logged out successfully'
+        });
     } catch (error) {
-        return res.json({ Success: false, message: error.message })
+        console.error('Logout error:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || 'Failed to logout'
+        });
     }
 }
 
