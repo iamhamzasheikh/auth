@@ -5,6 +5,7 @@ import { AppContext } from "../Context/AppContext";
 import axios from 'axios'
 import { toast } from "react-toastify";
 
+
 const Login = () => {
 
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Login = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmithandler = async (e) => {
     try {
@@ -92,12 +94,31 @@ const Login = () => {
           )}
           <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
             <img src={assets.mail_icon} alt="" />
-            <input onChange={e => setEmail(e.target.value)} value={email} className="bg-transparent outline-none text-white" type="email" name="email" placeholder="Enter Email" id="" required />
+            <input onChange={e => setEmail(e.target.value)} value={email}
+              className="bg-transparent outline-none text-white flex-grow autofill-fix"
+              type="email" name="email" placeholder="Enter Email" id="" required />
           </div>
-
+          {/* 
           <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
             <img src={assets.lock_icon} alt="" />
             <input onChange={e => setPassword(e.target.value)} value={password} className="bg-transparent outline-none text-white" type="password" name="password" placeholder="Password" id="" required />
+          </div> */}
+
+          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+            <img src={assets.lock_icon} alt="" />
+            <input
+              onChange={e => setPassword(e.target.value)}
+              value={password}
+              className="bg-transparent outline-none text-white"
+              type={showPassword ? "text" : "password"}  // Toggle between 'text' and 'password'
+              name="password"
+              placeholder="Password"
+              id=""
+              required
+            />
+            <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-white ml-2">
+              {showPassword ? "Hide" : "Show"}  {/* Toggle text */}
+            </button>
           </div>
 
           <p onClick={() => navigate('/reset-password')} className="mb-4 text-indigo-500 cursor-pointer">Forgot Password?</p>

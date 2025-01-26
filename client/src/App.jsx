@@ -11,12 +11,12 @@ const App = () => {
   return (
     <>
       <ToastContainer />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/email-verify" element={<EmailVerify />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/email-verify" element={<EmailVerify />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Routes>
     </>
   )
 }

@@ -67,3 +67,20 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
+
+/* Autofill fix */
+.autofill-fix:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #333A5C inset;
+  -webkit-text-fill-color: #ffffff;
+}
+
+/* Focus styles */
+.autofill-fix:focus {
+  outline: none;
+  border: none;
+}
+
+/* Placeholder color */
+.autofill-fix::placeholder {
+  color: #bbbbbb;
+}

@@ -80,7 +80,7 @@ const EmailVerify = () => {
       <form onSubmit={onSubmitHandler} className="bg-slate-900 p-8 rounded-lg shadow-lg w-auto text-sm">
 
         <h1 className="text-white text-2xl font-semibold text-center mb-4">Email Verify OTP</h1>
-        <p className="text-center mb-6 text-indigo-300">Enter 6 Digit code sent to your id.</p>
+        <p className="text-center mb-6 text-indigo-300">Enter 6 Digit code sent to your Email id.</p>
 
         <div className="flex justify-between mb-8 " onPaste={handlePaste}>
 
@@ -95,7 +95,6 @@ const EmailVerify = () => {
               required />
           ))}
         </div>
-
         <button className="w-full py-3 bg-gradient-to-r from-indigo-500 to-indigo-900 rounded-full">Verify Email</button>
 
       </form>
