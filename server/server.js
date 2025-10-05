@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(cors({origin: allowedOrigins,  credentials: true }));
 
 //api endpoints
-app.get('/', (req, res) => res.send('Api is working'))
-app.use('/api/auth', authRouter)
-app.use('/api/user', userRouter)
+app.get('/', (req, res) => res.send('Server is Live'))
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 app.listen(port, () => console.log(`Server Started on PORT: ${port}`));
