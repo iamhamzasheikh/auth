@@ -15,9 +15,20 @@ connectDB();
 
 // const allowedOrigins = ['http://localhost:5173']
 
+const allowedOrigins = [
+    'http://localhost:5173',                // for local development (Vite)
+    'https://auth-q44fuos0c-iamhamzasheikhs-projects.vercel.app/'      // 🔹 replace with your deployed frontend URL
+];
+
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: true, credentials: true }));
+// app.use(cors({ origin: true, credentials: true }));
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true, // allow cookies to be sent cross-site
+}));
 
 //api endpoints
 app.get('/', (req, res) => res.send('Server is Running'));
