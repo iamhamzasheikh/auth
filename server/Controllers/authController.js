@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 import userModel from '../Models/userModel.js'
 import transporter from '../Config/nodeMailer.js';
@@ -109,21 +109,6 @@ export const login = async (req, res) => {
     }
 };
 
-
-
-// now we can make logout functionality 
-
-// export const logout = async (req, res) => {
-//     try {
-//         res.clearCookie('token', {
-//             httpOnly: true,
-//             secure: process.env.NODE_ENV === 'production',
-//             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-//         }); return res.json({ Success: true, message: 'Logged out Successfully' })
-//     } catch (error) {
-//         return res.json({ success: false, message: error.message })
-//     }
-// }
 
 export const logout = async (req, res) => {
     try {
@@ -292,7 +277,7 @@ export const resetPassword = async (req, res) => {
             return res.json({ Success: false, message: 'OTP is Expired' })
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);  
         user.password = hashedPassword;
         user.resetOtp = '';
         user.resetOtpExpireAt = 0;
