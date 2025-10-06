@@ -25,6 +25,15 @@ app.use(express.json());
 app.use(cookieParser());
 // app.use(cors({ origin: true, credentials: true }));
 
+
+// 🔹 4. Configure CORS BEFORE routes
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(cors({
     origin: allowedOrigins,
     credentials: true, // allow cookies to be sent cross-site
