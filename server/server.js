@@ -13,14 +13,14 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 
-const allowedOrigins = ['http://localhost:5173']
+// const allowedOrigins = ['http://localhost:5173']
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: allowedOrigins,  credentials: true }));
+app.use(cors({ origin: true, credentials: true }));
 
 //api endpoints
-app.get('/', (req, res) => res.send('Server is Live'))
+app.get('/', (req, res) => res.send('Server is Running'));
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.listen(port, () => console.log(`Server Started on PORT: ${port}`));
