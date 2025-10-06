@@ -38,7 +38,7 @@ export const register = async (req, res) => {
         res.cookie('token', token,
             {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production ',
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
                 expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             }
@@ -277,7 +277,7 @@ export const resetPassword = async (req, res) => {
             return res.json({ Success: false, message: 'OTP is Expired' })
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);  
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
         user.resetOtp = '';
         user.resetOtpExpireAt = 0;
