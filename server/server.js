@@ -17,7 +17,7 @@ connectDB();
 
 const allowedOrigins = [
     'http://localhost:5173',                // for local development (Vite)
-    'https://auth-q44fuos0c-iamhamzasheikhs-projects.vercel.app/'      // 🔹 replace with your deployed frontend URL
+    'https://auth-q44fuos0c-iamhamzasheikhs-projects.vercel.app'      // 🔹 replace with your deployed frontend URL
 ];
 
 
